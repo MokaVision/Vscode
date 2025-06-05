@@ -16,7 +16,7 @@ struct DateDifference {
     int month;
     int day;
 };
-DateDifference diff;
+DateDifference diff; // good
 
 int days(int m , int y)
 {
