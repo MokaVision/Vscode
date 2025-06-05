@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <title>حاسبة دهون الجسم</title>
+    <style>
+        body { font-family: Arial; background: #f3f3f3; direction: rtl; padding: 20px; }
+        .container { background: #fff; padding: 20px; border-radius: 10px; width: 400px; margin: auto; box-shadow: 0 0 10px #ccc; }
+        input, select { width: 100%; padding: 8px; margin-top: 5px; }
+        label { margin-top: 10px; display: block; }
+        button { margin-top: 15px; width: 100%; padding: 10px; background: #2196F3; color: white; border: none; border-radius: 5px; }
+        .result { margin-top: 20px; background: #e0f7fa; padding: 10px; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>حاسبة دهون الجسم</h2>
+        <form onsubmit="calculateFat(event)">
+            <label>العمر:</label>
+            <input type="number" id="age" required>
+            <label>الجنس:</label>
+            <select id="gender" onchange="toggleHip()" required>
+                <option value="male">ذكر</option>
+                <option value="female">أنثى</option>
+            </select>
+            <label>الطول (سم):</label>
+            <input type="number" id="height" required>
+            <label>الوزن (كغ):</label>
+            <input type="number" id="weight" required>
+            <label>محيط الرقبة (سم):</label>
+            <input type="number" id="neck" required>
+            <label>محيط الخصر (سم):</label>
+            <input type="number" id="waist" required>
+            <div id="hipSection">
+                <label>محيط الورك (سم):</label>
+                <input type="number" id="hip">
+            </div>
+            <button type="submit">احسب</button>
+        </form>
+        <div class="result" id="resultBox"></div>
+    </div>
+
+    <script>
+        function toggleHip() {
+            const gender = document.getElementById("gender").value;
+            document.getElementById("hipSection").style.display = gender === "female" ? "block" : "none";
+        }
+
+        function classifyFat(gender, bf) {
+            if (gender === "male") {
+                if (bf <= 5) return "دهون أساسية";
+                else if (bf <= 13) return "رياضي";
+                else if (bf <= 17) return "جيد";
+                else if (bf <= 24) return "متوسط";
+                else return "سمين";
+            } else {
+                if (bf <= 13) return "دهون أساسية";
+                else if (bf <= 20) return "رياضية";
+                else if (bf <= 24) return "جيدة";
+                else if (bf <= 31) return "متوسطة";
+                else return "سمينة";
+            }
+        }
+
+        function calculateFat(event) {
+            event.preventDefault();
+
+            const gender = document.getElementById("gender").value;
+            const height = parseFloat(document.getElementById("height").value);
+            const neck = parseFloat(document.getElementById("neck").value);
+            const waist = parseFloat(document.getElementById("waist").value);
+            const weight = parseFloat(document.getElementById("weight").value);
+            const hip = gender === 'female' ? parseFloat(document.getElementById("hip").value) || 0 : 0;
+
+            let bf = 0;
+
+            if (gender === 'male') {
+                bf = 495 / (1.0324 - 0.19077 * ((waist - neck) / height) + 0.15456 * (height / height)) - 450;
+            } else {
+                bf = 495 / (1.29579 - 0.35004 * ((waist + hip - neck) / height) + 0.22100 * (height / height)) - 450;
+            }
+
+            bf = parseFloat(bf.toFixed(2));
+            const fatMass = parseFloat((weight * bf / 100).toFixed(2));
+            const leanMass = parseFloat((weight - fatMass).toFixed(2));
+            const category = classifyFat(gender, bf);
+
+            document.getElementById("resultBox").innerHTML = `
+                <p>نسبة الدهون: <strong>${bf}%</strong></p>
+                <p>الكتلة الدهنية: <strong>${fatMass} كغ</strong></p>
+                <p>الكتلة الخالية من الدهون: <strong>${leanMass} كغ</strong></p>
+                <p>التصنيف: <strong>${category}</strong></p>
+            `;
+        }
+
+        window.onload = toggleHip;
+    </script>
+</body>
+</html>

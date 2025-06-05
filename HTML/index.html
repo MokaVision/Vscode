@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>حاسبة نسبة الدهون</title>
+</head>
+<body>
+  <h1>حاسبة نسبة الدهون للذكور</h1>
+
+  <label>محيط الرقبة (سم):</label>
+  <input type="number" id="neck"><br>
+
+  <label>محيط الخصر (سم):</label>
+  <input type="number" id="waist"><br>
+
+  <label>الطول (سم):</label>
+  <input type="number" id="height"><br>
+
+  <button onclick="calculateFat()">احسب</button>
+
+  <h2 id="result"></h2>
+
+  <script>
+    function calculateFat() {
+      const neck = parseFloat(document.getElementById('neck').value);
+      const waist = parseFloat(document.getElementById('waist').value);
+      const height = parseFloat(document.getElementById('height').value);
+
+      const fat = 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(height) + 36.76;
+      document.getElementById('result').innerText = "نسبة الدهون المقدرة: " + fat.toFixed(2) + "%";
+    }
+  </script>
+</body>
+</html>

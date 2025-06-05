@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <title>حساب نسبة الدهون بالجسم</title>
+</head>
+<body>
+  <h1>حساب نسبة الدهون في الجسم</h1>
+
+  <label>النوع: </label>
+  <select id="gender">
+    <option value="male">ولد</option>
+    <option value="female">بنت</option>
+  </select><br><br>
+
+  <label>محيط الرقبة (سم):</label>
+  <input type="number" id="neck"><br>
+
+  <label>محيط الخصر (سم):</label>
+  <input type="number" id="waist"><br>
+
+  <label>الطول (سم):</label>
+  <input type="number" id="height"><br>
+
+  <div id="hip-section" style="display: none;">
+    <label>محيط الأرداف (سم):</label>
+    <input type="number" id="hip"><br>
+  </div><br>
+
+  <button onclick="calculateFat()">احسب</button>
+
+  <h3 id="result"></h3>
+
+  <script>
+
+    document.getElementById('gender').addEventListener('change', function ()
+    {
+      let gender = this.value;
+      document.getElementById('hip-section').style.display = gender === 'female' ? 'block' : 'none';
+    });
+
+    function calculateFat()
+    {
+      const gender = document.getElementById('gender').value;
+      const neck = parseFloat(document.getElementById('neck').value);
+      const waist = parseFloat(document.getElementById('waist').value);
+      const height = parseFloat(document.getElementById('height').value);
+
+      let fat;
+
+      if (gender === 'male')
+      {
+        fat = 86.010 * Math.log10(waist - neck) - 70.041 * Math.log10(height) + 36.76;
+      } else
+      {
+        const hip = parseFloat(document.getElementById('hip').value);
+        fat = 163.205 * Math.log10(waist + hip - neck) - 97.684 * Math.log10(height) - 78.387;
+      }
+
+      document.getElementById('result').innerText = "نسبة الدهون المقدرة: " + fat.toFixed(2) + "%";
+    }
+  </script>
+</body>
+</html>
