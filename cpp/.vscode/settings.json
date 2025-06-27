@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "sstream": "cpp"
+    },
+    "debug.console.closeOnEnd": false,
+    "debug.openDebug": "neverOpen"
+} 
