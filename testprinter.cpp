@@ -1,8 +1,7 @@
 
 #include<iostream>
+#include"print.hpp"
 using namespace std;
-
-
 
 
 
@@ -10,7 +9,8 @@ using namespace std;
 
 int main()
 {
+
     string name = "moahmed";
     int age = 14;
-    print("hello ", name , " age : " , age);
+    print("hi ", name , " age : " , age);
 }
