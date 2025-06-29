@@ -4,12 +4,11 @@
 
 template<typename T>
 void print_one(T val) {
-    std::cout << val << std::endl;
+    std::cout << val;
 }
 
 template<typename T, typename... Args>
 void print(T first, Args... rest) {
     std::cout << first;
     (... , (std::cout << rest));
-    std::cout << std::endl;
 }
